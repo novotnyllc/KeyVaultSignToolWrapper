@@ -8,7 +8,9 @@
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.0.37-beta" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Azure.KeyVault" Version="2.3.2" />
-    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.1.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.14.2" />
+    <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 
 </Project>
