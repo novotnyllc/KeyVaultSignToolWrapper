@@ -92,7 +92,7 @@ namespace KeyVaultSignToolWrapper
             var process = Process.Start(psi);
 
             var output = process.StandardOutput.ReadToEnd();
-            var error = process.StandardOutput.ReadToEnd();
+            var error = process.StandardError.ReadToEnd();
 
             application.Out.Write(output);
             application.Error.WriteLine(error);
