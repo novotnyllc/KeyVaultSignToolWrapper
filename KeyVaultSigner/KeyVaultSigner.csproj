@@ -117,6 +117,10 @@
       Condition="'$(UseCommonOutputDirectory)' != 'true'"
     />
     
+   
+  </Target>
+  <Target Name="CopyToExeDirectory" AfterTargets="DllExportMod">
+
     <!-- Copy these to the KeyVaultSignToolWraper output now -->
     <ItemGroup>
       <SignerFileToCopy64 Include="$(OutDir)x64\*.*"/>
