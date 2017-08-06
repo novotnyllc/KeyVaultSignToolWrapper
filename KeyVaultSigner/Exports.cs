@@ -23,31 +23,35 @@ namespace KeyVaultSigner
                                                      [Out] out CRYPT_ATTR_BLOB pSignedDigest
                                                      )
         {
-
-
-            var signerCert = new X509Certificate2(pSignerCert);
-            var accessToken = Environment.GetEnvironmentVariable("KEYVAULT_ACCESSTOKEN");
-            var keyIdentifier = Environment.GetEnvironmentVariable("KEYVAULT_KEY_IDENTIFIER");
-
-            HookAssemblyLoad();
-
-          
             pSignedDigest = default;
 
-            var kvalg = AlgIdToJwsAlgId(digestAlgID);
-            if (kvalg == null)
-                return -1;
-
-            var signed = SignWithKeyVault(keyIdentifier, accessToken, pbToBeSignedDigest, kvalg).Result;
-
-            var buffer = Marshal.AllocHGlobal(signed.Length);
-            Marshal.Copy(signed, 0, buffer, signed.Length);
-            pSignedDigest = new CRYPT_ATTR_BLOB
+            try
             {
-                pbData = buffer,
-                cbData = signed.Length
-            };
-            
+                var signerCert = new X509Certificate2(pSignerCert);
+                var accessToken = Environment.GetEnvironmentVariable("KEYVAULT_ACCESSTOKEN");
+                var keyIdentifier = Environment.GetEnvironmentVariable("KEYVAULT_KEY_IDENTIFIER");
+
+                HookAssemblyLoad();
+
+                var kvalg = AlgIdToJwsAlgId(digestAlgID);
+                if (kvalg == null)
+                    return -1;
+
+                var signed = SignWithKeyVault(keyIdentifier, accessToken, pbToBeSignedDigest, kvalg).Result;
+
+                var buffer = Marshal.AllocHGlobal(signed.Length);
+                Marshal.Copy(signed, 0, buffer, signed.Length);
+                pSignedDigest = new CRYPT_ATTR_BLOB
+                {
+                    pbData = buffer,
+                    cbData = signed.Length
+                };
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.Message);
+                return Marshal.GetHRForException(e);
+            }
             return 0;
         }
 
