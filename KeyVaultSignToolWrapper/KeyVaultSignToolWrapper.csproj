@@ -3,14 +3,26 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net461</TargetFramework>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IsTool>true</IsTool>
+    <Authors>Oren Novotny</Authors>
+    <Copyright>Copyright (C) Oren Novotny</Copyright>
+    <Description>Enables SignTool to use certificates in Azure Key Vault</Description>
+    <PackageTags>authenticode;key-vault;signtool</PackageTags>
+    <PackageProjectUrl>https://github.com/onovotny/KeyVaultSignToolWrapper</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/onovotny/KeyVaultSignToolWrapper/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.0.37-beta" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Azure.KeyVault" Version="2.3.2" />
-    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.14.2" />
-    <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
-    <Reference Include="System.Net.Http" />
+    <PackageReference Include="Microsoft.Azure.KeyVault" Version="2.3.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.14.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" PrivateAssets="all" />
+    <Reference Include="System.Net.Http" Pack="false" />
+  </ItemGroup>
+
+  <ItemGroup Label="Package">
+    <None Include="$(OutDir)\**\*.*" Pack="true" PackagePath="tools" />
   </ItemGroup>
 
 </Project>
