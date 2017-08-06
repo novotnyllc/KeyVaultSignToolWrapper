@@ -16,6 +16,7 @@ install:
   - cmd: nuget install SignClient -Version 0.7.0 -SolutionDir %APPVEYOR_BUILD_FOLDER% -Verbosity quiet -ExcludeVersion
 
 build_script:
+  - cmd: nuget restore KeyVaultSignToolWrapper.sln
   - cmd: msbuild /t:restore KeyVaultSignToolWrapper.sln
   - cmd: msbuild /t:build KeyVaultSignToolWrapper.sln /p:Configuration=Release
   - cmd: msbuild /t:pack KeyVaultSignToolWrapper\KeyVaultSignToolWrapper.csproj
