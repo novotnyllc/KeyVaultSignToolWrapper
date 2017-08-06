@@ -69,9 +69,11 @@ namespace KeyVaultSignToolWrapper
             var kvcert = await client.GetCertificateAsync(keyVaultUrl, keyVaultCertificateName).ConfigureAwait(false);
 
             var fileName = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), "KeyVaultCerts", $"{keyVaultCertificateName}.cer");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
             File.WriteAllBytes(fileName, kvcert.Cer);
 
-            signToolArgs += $@"/f ""{fileName}"" {file} ";
+            signToolArgs += $@" /f ""{fileName}"" {file} ";
             
             var psi = new ProcessStartInfo
             {

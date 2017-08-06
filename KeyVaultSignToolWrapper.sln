@@ -4,11 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26730.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyVaultSignToolWrapper", "KeyVaultSignToolWrapper\KeyVaultSignToolWrapper.csproj", "{1E7E8019-BAAC-40AC-8F85-0EAE39935513}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E9B7FDC7-10D4-4049-A50B-5BAC31C5AE35} = {E9B7FDC7-10D4-4049-A50B-5BAC31C5AE35}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyVaultSigner", "KeyVaultSigner\KeyVaultSigner.csproj", "{E9B7FDC7-10D4-4049-A50B-5BAC31C5AE35}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1E7E8019-BAAC-40AC-8F85-0EAE39935513} = {1E7E8019-BAAC-40AC-8F85-0EAE39935513}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

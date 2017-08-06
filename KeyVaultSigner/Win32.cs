@@ -7,8 +7,9 @@ namespace KeyVaultSigner.Win32
     public struct CERT_CONTEXT
     {
         public uint dwCertEncodingType;
-        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
-        public byte[] pbCertEncoded;
+        //[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+        //public byte[] pbCertEncoded;
+        public IntPtr pbCertEncoded;
         public uint cbCertEncoded;
         public IntPtr pCertInfo;
         public IntPtr hCertStore;
@@ -40,8 +41,9 @@ namespace KeyVaultSigner.Win32
         public uint cbData;
 
         /// BYTE*
-        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
-        public byte[] pbData;
+       // [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
+        //public byte[] pbData;
+        public IntPtr pbData;
     }
 
 
@@ -63,8 +65,9 @@ namespace KeyVaultSigner.Win32
         /// DWORD->unsigned int
         public uint cbData;
 
-        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
-        public byte[] pbData;
+        //[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
+        //public byte[] pbData;
+        public IntPtr pbData;
 
         /// DWORD->unsigned int
         public uint cUnusedBits;
