@@ -27,7 +27,7 @@ namespace KeyVaultSigner
 
             try
             {
-                var signerCert = new X509Certificate2(pSignerCert);
+              //  var signerCert = new X509Certificate2(pSignerCert);
                 var accessToken = Environment.GetEnvironmentVariable("KEYVAULT_ACCESSTOKEN");
                 var keyIdentifier = Environment.GetEnvironmentVariable("KEYVAULT_KEY_IDENTIFIER");
 
