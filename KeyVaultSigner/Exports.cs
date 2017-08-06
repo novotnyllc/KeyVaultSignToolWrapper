@@ -15,7 +15,7 @@ namespace KeyVaultSigner
     public static class Exports
     {
         [DllExport("AuthenticodeDigestSign", CallingConvention.Winapi)]
-        public static uint AuthenticodeDigestSign([In] IntPtr pSignerCert,
+        public static int AuthenticodeDigestSign([In] IntPtr pSignerCert,
                                                      [In] ref CRYPT_ATTR_BLOB pMetadataBlob,
                                                      [In] AlgId digestAlgID,
                                                      [In][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] pbToBeSignedDigest,
@@ -27,8 +27,7 @@ namespace KeyVaultSigner
 
             var signerCert = new X509Certificate2(pSignerCert);
             var accessToken = Environment.GetEnvironmentVariable("KEYVAULT_ACCESSTOKEN");
-            var keyVaultUrl = Environment.GetEnvironmentVariable("KEYVAULT_URL");
-            var certificateName = Environment.GetEnvironmentVariable("KEYVAULT_CERTIFICATE_NAME");
+            var keyIdentifier = Environment.GetEnvironmentVariable("KEYVAULT_KEY_IDENTIFIER");
 
             HookAssemblyLoad();
 
@@ -37,9 +36,9 @@ namespace KeyVaultSigner
 
             var kvalg = AlgIdToJwsAlgId(digestAlgID);
             if (kvalg == null)
-                return 1;
+                return -1;
 
-            var signed = SignWithKeyVault(keyVaultUrl, certificateName, accessToken, pbToBeSignedDigest, kvalg).Result;
+            var signed = SignWithKeyVault(keyIdentifier, accessToken, pbToBeSignedDigest, kvalg).Result;
 
             var buffer = Marshal.AllocHGlobal(signed.Length);
             Marshal.Copy(signed, 0, buffer, signed.Length);
@@ -52,7 +51,7 @@ namespace KeyVaultSigner
             return 0;
         }
 
-        static async Task<byte[]> SignWithKeyVault(string keyVaultUrl, string certificateName, string accessToken, byte[] bytesToSign, string alg)
+        static async Task<byte[]> SignWithKeyVault(string keyIdentifier, string accessToken, byte[] bytesToSign, string alg)
         {
             // We already have an access token for the resource
             Task<string> Authenticate(string authority, string resource, string scope)
@@ -61,10 +60,8 @@ namespace KeyVaultSigner
             }
 
             var client = new KeyVaultClient(Authenticate, new HttpClient());
-            var kvcert = await client.GetCertificateAsync(keyVaultUrl, certificateName);
 
-
-            var signed = await client.SignAsync(kvcert.KeyIdentifier.Identifier, alg, bytesToSign);
+            var signed = await client.SignAsync(keyIdentifier, alg, bytesToSign);
 
             return signed.Result;
         }

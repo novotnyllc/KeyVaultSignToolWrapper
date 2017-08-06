@@ -83,8 +83,7 @@ namespace KeyVaultSignToolWrapper
                 Environment =
                 {
                     { "KEYVAULT_ACCESSTOKEN", validatedToken },
-                    { "KEYVAULT_URL", keyVaultUrl },
-                    { "KEYVAULT_CERTIFICATE_NAME", keyVaultCertificateName },
+                    { "KEYVAULT_KEY_IDENTIFIER", kvcert.KeyIdentifier.Identifier }
                 },
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
