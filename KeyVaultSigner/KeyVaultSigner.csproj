@@ -117,5 +117,34 @@
       UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyLocalIfPossible)"
       Condition="'$(UseCommonOutputDirectory)' != 'true'"
     />
+    
+    <!-- Copy these to the KeyVaultSignToolWraper output now -->
+    <ItemGroup>
+      <SignerFileToCopy64 Include="$(OutDir)x64\*.*"/>
+      <SignerFileToCopy32 Include="$(OutDir)x86\*.*"/>
+    </ItemGroup>
+
+    <Copy
+      SourceFiles="@(SignerFileToCopy64)"
+      DestinationFiles="@(SignerFileToCopy64->'$(MSBuildThisFileDirectory)..\KeyVaultSignToolWrapper\bin\$(Configuration)\net461\x64\%(Filename)%(Extension)')"
+      SkipUnchangedFiles="$(SkipCopyUnchangedFiles)"
+      OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
+      Retries="$(CopyRetryCount)"
+      RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
+      UseHardlinksIfPossible="$(CreateHardLinksForCopyLocalIfPossible)"
+      UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyLocalIfPossible)"
+      Condition="'$(UseCommonOutputDirectory)' != 'true'"
+    />
+    <Copy
+      SourceFiles="@(SignerFileToCopy32)"
+      DestinationFiles="@(SignerFileToCopy32->'$(MSBuildThisFileDirectory)..\KeyVaultSignToolWrapper\bin\$(Configuration)\net461\x86\%(Filename)%(Extension)')"
+      SkipUnchangedFiles="$(SkipCopyUnchangedFiles)"
+      OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
+      Retries="$(CopyRetryCount)"
+      RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
+      UseHardlinksIfPossible="$(CreateHardLinksForCopyLocalIfPossible)"
+      UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyLocalIfPossible)"
+      Condition="'$(UseCommonOutputDirectory)' != 'true'"
+    />
   </Target>
 </Project>

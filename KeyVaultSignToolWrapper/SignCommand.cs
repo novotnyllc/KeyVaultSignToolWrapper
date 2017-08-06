@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using KeyVaultSignToolWrapper.PE;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -72,9 +73,21 @@ namespace KeyVaultSignToolWrapper
 
             Directory.CreateDirectory(Path.GetDirectoryName(fileName));
             File.WriteAllBytes(fileName, kvcert.Cer);
-
-            signToolArgs += $@" /f ""{fileName}"" {file} ";
             
+            // path to our helper library
+            var location = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var dir = new DirectoryInfo(location);
+
+            // See if the signtool is x86 or x64
+            var peReader = new PeHeaderReader(signTool);
+            var platformDir = peReader.Is32BitHeader ? "x86" : "x64";
+
+            var dlibLocation = Path.Combine(dir.FullName, platformDir, "KeyVaultSigner.dll");
+            signToolArgs += $@" /dlib ""{dlibLocation}"" ";
+
+            signToolArgs += $@" /f ""{fileName}"" ""{file}"" ";
+
+
             var psi = new ProcessStartInfo
             {
                 FileName = signTool,
