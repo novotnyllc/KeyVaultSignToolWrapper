@@ -14,9 +14,9 @@ namespace KeyVaultSignToolWrapper
             {
                 signConfiguration.Description = "Invokes SignTool with the specified Key Vault certificate.";
                 signConfiguration.HelpOption("-? | -h | --help");
-                
-                var signTool = signConfiguration.Argument("signtool", "Path to SignTool.");
+
                 var file = signConfiguration.Argument("file", "File to sign.");
+                var signTool = signConfiguration.Argument("signtool", "Path to SignTool.");
                 var signToolArgs = signConfiguration.Argument("signtool-args", "Command line arguments to SignTool excluding the file.");
                 
                 var azureKeyVaultUrl = signConfiguration.Option("-kvu | --azure-key-vault-url", "The URL to an Azure Key Vault.", CommandOptionType.SingleValue);

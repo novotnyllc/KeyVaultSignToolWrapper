@@ -87,7 +87,6 @@ namespace KeyVaultSignToolWrapper
 
             signToolArgs += $@" /f ""{fileName}"" ""{file}"" ";
 
-
             var psi = new ProcessStartInfo
             {
                 FileName = signTool,
