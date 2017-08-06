@@ -11,6 +11,7 @@
     <PackageTags>authenticode;key-vault;signtool</PackageTags>
     <PackageProjectUrl>https://github.com/onovotny/KeyVaultSignToolWrapper</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/onovotny/KeyVaultSignToolWrapper/master/LICENSE</PackageLicenseUrl>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\artifacts\</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Package">
-    <None Include="$(OutDir)\**\*.*" Pack="true" PackagePath="tools" />
+    <None Include="$(OutDir)\**\*.*" Exclude="**\KeyVaultSignToolWrapper.*" Pack="true" PackagePath="tools" Visible="false" />
   </ItemGroup>
 
 </Project>
