@@ -7,13 +7,22 @@ namespace KeyVaultSigner.Win32
     public struct CERT_CONTEXT
     {
         public uint dwCertEncodingType;
-        //[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
-        //public byte[] pbCertEncoded;
         public IntPtr pbCertEncoded;
-        public uint cbCertEncoded;
+        public int cbCertEncoded;
         public IntPtr pCertInfo;
         public IntPtr hCertStore;
         public CERT_INFO CertInfo => (CERT_INFO)Marshal.PtrToStructure(pCertInfo, typeof(CERT_INFO));
+
+        public byte[] CertEncoded
+        {
+            get
+            {
+                var buffer = new byte[cbCertEncoded];
+                Marshal.Copy(pbCertEncoded, buffer, 0, cbCertEncoded);
+                return buffer;
+            }
+        }
+
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -38,12 +47,25 @@ namespace KeyVaultSigner.Win32
     {
 
         /// DWORD->unsigned int
-        public uint cbData;
+        public int cbData;
 
         /// BYTE*
        // [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
         //public byte[] pbData;
         public IntPtr pbData;
+
+        public byte[] Data
+        {
+            get
+            {
+                if (pbData == IntPtr.Zero)
+                    return new byte[0];
+
+                var buffer = new byte[cbData];
+                Marshal.Copy(pbData, buffer, 0, cbData);
+                return buffer;
+            }
+        }
     }
 
 
@@ -63,7 +85,7 @@ namespace KeyVaultSigner.Win32
     {
 
         /// DWORD->unsigned int
-        public uint cbData;
+        public int cbData;
 
         //[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
         //public byte[] pbData;
@@ -71,6 +93,19 @@ namespace KeyVaultSigner.Win32
 
         /// DWORD->unsigned int
         public uint cUnusedBits;
+
+        public byte[] Data
+        {
+            get
+            {
+                if (pbData == IntPtr.Zero)
+                    return new byte[0];
+
+                var buffer = new byte[cbData];
+                Marshal.Copy(pbData, buffer, 0, cbData);
+                return buffer;
+            }
+        }
     }
     [StructLayout(LayoutKind.Sequential)]
     public struct CRYPT_ALGORITHM_IDENTIFIER
