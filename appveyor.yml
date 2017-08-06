@@ -1,0 +1,29 @@
+image: Visual Studio 2017 Preview
+configuration: Release
+
+environment:
+  SignClientSecret:
+    secure: S26+NphAhj/vo5ZdHd/N/4toty3ztdNGmuNdvAB57W1oIVQEHVKqAVuhTD8B9ATy
+
+skip_branch_with_pr: true
+
+skip_commits:
+  files:
+    - '**/*.md'
+
+install:
+  - cmd: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v4.1.0/NuGet.exe
+  - cmd: nuget install SignClient -Version 0.7.0 -SolutionDir %APPVEYOR_BUILD_FOLDER% -Verbosity quiet -ExcludeVersion
+
+build_script:
+  - cmd: msbuild /t:restore KeyVaultSignToolWrapper.sln
+  - cmd: msbuild /t:build KeyVaultSignToolWrapper.sln /p:Configuration=Release
+  - cmd: msbuild /t:pack KeyVaultSignToolWrapper\KeyVaultSignToolWrapper.csproj
+
+after_build:
+  - ps: '.\scripts\Sign-Package.ps1'
+  
+artifacts:
+  - path: 'artifacts\*.nupkg'
+  
+test: off

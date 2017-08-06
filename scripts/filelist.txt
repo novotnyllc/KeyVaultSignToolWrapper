@@ -1,0 +1,3 @@
+tools\KeyVaultSignToolWrapper.exe
+tools\x86\KeyVaultSigner.dll
+tools\x64\KeyVaultSigner.dll
