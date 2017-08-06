@@ -5,7 +5,7 @@ namespace KeyVaultSigner.Win32
 {
    
     [StructLayout(LayoutKind.Sequential)]
-    public class CRYPT_ATTR_BLOB
+    public struct CRYPT_ATTR_BLOB
     {
 
         /// DWORD->unsigned int
